@@ -25,16 +25,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-        }
-        else {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
+        } else {
             locationStart();
         }
     }
 
-    private void locationStart(){
-        Log.d("debug","locationStart()");
+    private void locationStart() {
+        Log.d("debug", "locationStart()");
 
         // LocationManager インスタンス生成
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (requestCode == 1000) {
             // 使用が許可された
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("debug","checkSelfPermission true");
+                Log.d("debug", "checkSelfPermission true");
 
                 locationStart();
                 return;
@@ -98,11 +98,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         // 緯度の表示
         TextView textView1 = (TextView) findViewById(R.id.text_view1);
-        textView1.setText("Latitude:"+location.getLatitude());
+        textView1.setText("Latitude:" + location.getLatitude());
 
         // 経度の表示
         TextView textView2 = (TextView) findViewById(R.id.text_view2);
-        textView2.setText("Latitude:"+location.getLongitude());
+        textView2.setText("Latitude:" + location.getLongitude());
     }
 
     @Override
